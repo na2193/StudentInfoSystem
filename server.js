@@ -9,8 +9,18 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/StudentInformationSystem', {useNewUrlParser: true});
+var dbURI  = 'mongodb://localhost:27017/StudentInformationSystem';
+mongoose.connect(dbURI , {useNewUrlParser: true});
 var db = mongoose.connection;
+
+db.on('connected', function () {  
+  console.log('Mongoose default connection open to ' + dbURI);
+}); 
+
+// If the connection throws an error
+db.on('error',function (err) {  
+  console.log('Mongoose default connection error: ' + err);
+}); 
 
 var routes = require('./routes/index');
 var students = require('./routes/students');

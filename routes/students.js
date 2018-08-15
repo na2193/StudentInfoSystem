@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Student = require('./models/student');
+var Student = require('../models/student');
+
 
 router.get('/dashboard', function(req, res) {
     res.send('Hello Dashboard');

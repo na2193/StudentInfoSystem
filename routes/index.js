@@ -24,7 +24,12 @@ router.post('/login', passport.authenticate('local', {
         res.redirect('/dashboard');
 });
 // DOES NOT WORK -- NOW CHECK IF THIS WORKED
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy( {
+	 // by default, local strategy uses username and password, we will override with email
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true // allows us to pass back the entire request to the callback
+    },
     function(email, password, done) {
         Admin.getAdminByEmail(email, function(err, admin) {
             if(err)

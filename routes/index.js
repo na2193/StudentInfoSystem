@@ -23,9 +23,9 @@ router.post('/login', passport.authenticate('local', {
         console.log('Auth successful');
         res.redirect('/dashboard');
 });
-// DOES NOT WORK
+// DOES NOT WORK -- NOW CHECK IF THIS WORKED
 passport.use(new LocalStrategy(
-    function(username, password, done) {
+    function(email, password, done) {
         Admin.getAdminByEmail(email, function(err, admin) {
             if(err)
                 throw err;

@@ -9,6 +9,7 @@ var db = mongoose.connection;
 var bcrypt = require('bcryptjs');
 var Admin = require('../models/admin');
 var Student = require('../models/student');
+var Class = require('../models/class');
 
 // fix this later
 router.get('/', function(req, res) {
@@ -169,6 +170,17 @@ router.post('/newStudent', isLoggedIn, function(req, res) {
 			successMessage: successMessage,
 			errorMessage: errorMessage
 		}); */
+});
+
+router.get('/newClass', isLoggedIn, function(req, res) {
+	res.render('newClass.ejs');
+});
+
+router.post('/newClass', isLoggedIn, function(req, res) {
+	var newClass = new Class ({
+		className: req.body.className,
+	
+    });		
 });
 
 

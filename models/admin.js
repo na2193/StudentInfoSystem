@@ -14,6 +14,10 @@ var AdminSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true
@@ -45,6 +49,11 @@ AdminSchema.pre('save', function(next) {
         }
     });
 });
+
+module.exports.getAdminByUsername = function(username, callback){
+	var query = {username: username};
+	Admin.findOne(query, callback);
+}
 
 // function to get admin by email and exporting it
 module.exports.getAdminByEmail = function(email, callback) {

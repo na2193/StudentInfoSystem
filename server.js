@@ -22,8 +22,8 @@ db.on('error',function (err) {
   console.log('Mongoose default connection error: ' + err);
 }); 
 
-var routes = require('./routes/index');
-var students = require('./routes/students');
+var routes = require('./routes/admin');
+//var students = require('./routes/students');
 
 var app = express();
 
@@ -36,14 +36,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Express Session
 app.use(session({
-    secret: 'secret', // the word secret, you can change it to whatever you like
-    saveUninitialized: true,
-    resave: true
+  secret: 'secret', // the word secret, you can change it to whatever you like
+  saveUninitialized: true,
+  resave: true
 }));
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Express Validator
 app.use(expressValidator({
@@ -71,7 +75,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
-app.use('/students', students);
+//app.use('/students', students);
 
 app.set('port', (process.env.PORT || 3000));
 

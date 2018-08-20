@@ -4,7 +4,7 @@ var Student = require('../models/student');
 
 
 router.get('/dashboard', function(req, res) {
-    res.send('Hello Dashboard');
+    res.render('dashboard.ejs');
 });
 
 router.get('/newStudents', function(req, res) {

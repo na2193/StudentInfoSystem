@@ -179,8 +179,36 @@ router.get('/newClass', isLoggedIn, function(req, res) {
 router.post('/newClass', isLoggedIn, function(req, res) {
 	var newClass = new Class ({
 		className: req.body.className,
+		instructorName: req.body.instructorName,
+		email: req.body.email,
+		phoneNum: req.body.phoneNum,
+		startDate: req.body.startDate,
+		endDate: req.body.endDate,
+		maxStudents: req.body.maxStudents,
+		startTime: req.body.startTime,
+		endTime: req.body.endTime,
+		meetingDays1: req.body.meetingDays1,
+		meetingDays2: req.body.meetingDays2,
+		classLocation: req.body.classLocation
+    	});		
+	var errorMessage;
+	// saving the new student
+	newClass.save(function(err) {
+		if(err) {
+			errorMessage = 'ERROR';
+			throw err;
+		}
+		console.log('New Class Successfully Saved');
+	});
 	
-    });		
+	var successMessage = 'New Class Successfully Saved';
+	
+	 res.redirect('/dashboard');
+    /*
+	res.render('/newClass', {
+			successMessage: successMessage,
+			errorMessage: errorMessage
+		}); */
 });
 
 

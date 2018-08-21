@@ -114,6 +114,38 @@ router.get('/dashboard', isLoggedIn, function(req, res) {
     });
 });
 
+// new -> test it 
+router.get('/viewStudents', isLoggedIn, function(req, res) {
+	var errorMessage;
+	newStudent.find({}, function(students, err) {
+		if(err) {
+			errorMessage = 'ERROR';
+			throw err;
+		}
+		console.log('List of all Students: ' + students);
+	});
+	res.render('/dashboard', {
+			students: students,
+			errorMessage: errorMessage
+	});
+});
+
+// new -> test it
+router.get('/viewStudents/:id', isLoggedIn, function(req, res) {
+	var errorMessage;
+	newStudent.findById({req.params.id}, function(student, err) {
+		if(err) {
+			errorMessage = 'ERROR';
+			throw err;
+		}
+		console.log('List of Student: ' + student);
+	});
+	res.render('/studentRecords', {
+			student: student,
+			errorMessage: errorMessage
+	});		
+});
+
 router.get('/newStudent', isLoggedIn, function(req, res) {
     res.render('newStudent.ejs');
 });

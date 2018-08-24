@@ -74,51 +74,53 @@
 						<span>Tables</span></a>
 				</li>
 		  </ul>
-		  <!-------------->
 			
 			<div class="container">
 				<div class="card card-newClass mx-auto mt-5">
 					<div class="card-header mx-auto">Student's Record</div>
 						<div class="card-body">
-							<form action="/viewStudents" method="GET">
+							<form action="/searchStudentRecord" method="POST">
 								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-1"></div>
-										<div class="col-md-3">
+										<div class="form-row">
+											<div class="col-md-1"></div>
+											<div class="col-md-3">
+												<div class="form-label-group">
+													<select id="searchBy" name="searchBySelectPicker" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
+														<option selected>Search by...</option>
+														<option value="studentID">Student ID</option>
+														<option value="email">Email</option>
+														<option value="phoneNum">Phone Number</option>
+													</select>
+												</div>
+											</div>
+										<div class="col-md-6">
 											<div class="form-label-group">
-												<select id="searchBy" name="searchBySelectPicker" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
-													<option selected>Search by...</option>
-													<option value="studentID">Student ID</option>
-													<option value="email">Email</option>
-													<option value="phoneNum">Phone Number</option>
-												</select>
+												<input type="text" id="search" name="inputSearch" class="form-control" placeholder="Search" required="required" autofocus="autofocus" >
+												<label for="search">Search</label>
 											</div>
 										</div>
-									<div class="col-md-6">
-										<div class="form-label-group">
-											<input type="text" id="search" name="inputSearch" class="form-control" placeholder="Search" required="required" autofocus="autofocus">
-											<label for="search">Search</label>
+										<div class="col-md-1">
+											<div class="form-label-group">
+												<button type="search" class="btn btn-primary btn-block">Search</button>
+											</div>
 										</div>
+										</div> 
+										<br>
 									</div>
-									<div class="col-md-1">
-										<div class="form-label-group">
-											<button type="search" class="btn btn-primary btn-block">Search</button>
-										</div>
-									</div>
-									</div> 
-									<br>
-								</div>
+							</form>
+
+							<form action="/viewStudents" method="GET">
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
+												<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
 												<label for="firstName">First name</label>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="lastName" class="form-control" placeholder="Last name" required="required">
+												<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" required="required">
 												<label for="lastName">Last name</label>
 											</div>
 										</div>
@@ -128,19 +130,19 @@
 									<div class="form-row">
 										<div class="col-md-5">
 											<div class="form-label-group">
-												<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required">
+												<input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required="required">
 												<label for="inputEmail">Email address</label>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-label-group">
-												<input type="text" id="phoneNumber" class="form-control" placeholder="Phone number" required="required">
+												<input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Phone number" required="required">
 												<label for="phoneNumber">Phone number</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-label-group">
-												<input type="date" id="dateOfBirth" class="form-control" placeholder="Date of birth" required="required">
+												<input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Date of birth" required="required">
 												<label for="dateOfBirth">Date of birth</label>
 											</div>
 										</div>
@@ -151,13 +153,13 @@
 									<div class="form-row">
 										<div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="address" class="form-control" placeholder="Address" required="required">
+												<input type="text" id="address" name="address" class="form-control" placeholder="Address" required="required">
 												<label for="address">Address</label>
 										  </div>
 										</div>
 										 <div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="address2" class="form-control" placeholder="Apartment, studio, or floor">
+												<input type="text" id="address2" name="address2" class="form-control" placeholder="Apartment, studio, or floor">
 												<label for="address2">Apartment, studio, or floor</label>
 											</div>
 										</div>
@@ -167,13 +169,13 @@
 									<div class="form-row">
 										<div class="col-md-4">
 											<div class="form-label-group">
-												<input type="text" id="city" class="form-control" placeholder="City" required="required">
+												<input type="text" id="city" name="city" class="form-control" placeholder="City" required="required">
 												<label for="city">City</label>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-label-group">
-												<select id="inputState" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
+												<select id="inputState" name="state" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
 													<option selected>State...</option>
 													<option>...</option>
 												</select>
@@ -181,7 +183,7 @@
 										</div>
 										<div class="col-md-4">
 											<div class="form-label-group">
-												<input type="text" id="zip" class="form-control" placeholder="Zip" required="required">
+												<input type="text" id="zip" name="zip" class="form-control" placeholder="Zip" required="required">
 												<label for="zip">Zip </label>
 											</div>
 										</div>
@@ -193,13 +195,13 @@
 									<div class="form-row">
 										<div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="parentFirstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
+												<input type="text" id="parentFirstName" name="parentFirstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
 												<label for="parentFirstName">First name</label>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="parentLastName" class="form-control" placeholder="Last name" required="required">
+												<input type="text" id="parentLastName" name="parentLastName" class="form-control" placeholder="Last name" required="required">
 												<label for="parentLastName">Last name</label>
 											</div>
 										</div>
@@ -209,21 +211,25 @@
 									<div class="form-row">
 										<div class="col-md-5">
 											<div class="form-label-group">
-												<input type="email" id="parentEmail" class="form-control" placeholder="Email address" required="required">
+												<input type="email" id="parentEmail" name="parentEmail" class="form-control" placeholder="Email address" required="required">
 												<label for="parentEmail">Email address</label>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-label-group">
-												<input type="text" id="parentPhone" class="form-control" placeholder="Phone number" required="required">
+												<input type="text" id="parentPhone" name="parentPhone" class="form-control" placeholder="Phone number" required="required">
 												<label for="parentPhone">Phone number</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-label-group">
-												<select id="parentRelationship" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
+												<select id="parentRelationship" name="parentRelationship" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
 													<option selected>Relationship...</option>
-													<option>...</option>
+													<option>Mother</option>
+													<option>Father</option>
+													<option>Brother</option>
+													<option>Sister</option>
+													<option>Other</option>
 												</select>
 											</div>
 										</div>
@@ -234,13 +240,13 @@
 									<div class="form-row">
 										<div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="emergFirstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
+												<input type="text" id="emergFirstName" name="emergFirstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
 												<label for="emergFirstName">First name</label>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-label-group">
-												<input type="text" id="emergLastName" class="form-control" placeholder="Last name" required="required">
+												<input type="text" id="emergLastName" name="emergLastName" class="form-control" placeholder="Last name" required="required">
 												<label for="emergLastName">Last name</label>
 											</div>
 										</div>
@@ -250,21 +256,25 @@
 									<div class="form-row">
 										<div class="col-md-5">
 											<div class="form-label-group">
-												<input type="email" id="emergEmail" class="form-control" placeholder="Email address" required="required">
+												<input type="email" id="emergEmail" name="emergEmail" class="form-control" placeholder="Email address" required="required">
 												<label for="emergEmail">Email address</label>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-label-group">
-												<input type="text" id="emergPhone" class="form-control" placeholder="Phone number" required="required">
+												<input type="text" id="emergPhone" name="emergPhone" class="form-control" placeholder="Phone number" required="required">
 												<label for="emergPhone">Phone number</label>
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-label-group">
-												<select id="emergRelationship" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
+												<select id="emergRelationship" name="emergRelationship" class="form-control" required="required"> <!-- NEED TO FIX THE HIEGHT and DESIGN -->
 													<option selected>Relationship...</option>
-													<option>...</option>
+													<option>Mother</option>
+													<option>Father</option>
+													<option>Brother</option>
+													<option>Sister</option>
+													<option>Other</option>
 												</select>
 											</div>
 										</div>

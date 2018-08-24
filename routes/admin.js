@@ -11,7 +11,6 @@ var Admin = require('../models/admin');
 var Student = require('../models/student');
 var Class = require('../models/class');
 
-// fix this later
 router.get('/', function(req, res) {
     res.redirect('/login');
 });
@@ -133,7 +132,7 @@ router.get('/viewStudents', isLoggedIn, function(req, res) {
 // new -> test it
 router.get('/viewStudents/:id', isLoggedIn, function(req, res) {
 	var errorMessage;
-	newStudent.findById({req.params.id}, function(student, err) {
+	newStudent.findById({id}, function(student, err) {
 		if(err) {
 			errorMessage = 'ERROR';
 			throw err;
@@ -213,7 +212,7 @@ router.post('/newClass', isLoggedIn, function(req, res) {
 		className: req.body.className,
 		instructorName: req.body.instructorName,
 		email: req.body.email,
-		phoneNum: req.body.phoneNum,
+		phoneNumber: req.body.phoneNum,
 		startDate: req.body.startDate,
 		endDate: req.body.endDate,
 		maxStudents: req.body.maxStudents,
@@ -230,7 +229,7 @@ router.post('/newClass', isLoggedIn, function(req, res) {
 			errorMessage = 'ERROR';
 			throw err;
 		}
-		console.log('New Class Successfully Saved');
+		console.log('New Class Successfully Saved: ' + newClass);
 	});
 	
 	var successMessage = 'New Class Successfully Saved';
@@ -243,5 +242,64 @@ router.post('/newClass', isLoggedIn, function(req, res) {
 		}); */
 });
 
+router.get('/viewStudentRecords', isLoggedIn, function(req, res) {
+	res.render('studentRecords.ejs');
+});
+
+router.post('/searchStudentRecord', isLoggedIn, function(req, res) {
+	var dropDownValue = req.body.searchBySelectPicker;
+	console.log(dropDownValue);
+	var searchItem = req.body.inputSearch;
+	console.log(searchItem);
+	
+	if(dropDownValue == 'studentID') {
+		Student.findById(searchItem, function(err, student) {
+			if(err)
+				throw err;
+
+			if(!student) {
+				console.log('Unknown Student');
+				return done(null, false, {message: 'Unknown Student.... Please try again or contact Admin'}); 
+			}
+
+			req.session.student = student;
+			console.log(student);
+			res.redirect('/studentRecords');
+		});
+	}
+});
+
+/* AFTER SEARCHING FOR STUDENT, it will fill in the forms below, don't know how to do that
+*/
+
+router.get('/studentRecords', function(req, res) {
+	var student = req.session.student;
+	console.log(student);
+	res.render('studentRecords.ejs', {
+		firstName: student.firstName,
+		lastName: student.lastName,
+		email: student.email,
+		phoneNum: student.phoneNumber,
+		dateOfBirth: student.dateOfBirth,
+		address: student.address.address1,
+		address2: student.address.address2,
+		city: student.address.city,
+		state: student.address.state,
+		zip: student.address.zipCode,
+		parentFirstName: student.parentInfo.firstName,
+		parentLastName: student.parentInfo.lastName,
+		parentEmail: student.parentInfo.email,
+		parentPhoneNum: student.parentInfo.phoneNumber,
+		parentRelationship: student.parentInfo.relationship,
+		emergFirstName: student.emergencyContactInfo.firstName,
+		emergLastName: student.emergencyContactInfo.lastName,
+		emergEmail: student.emergencyContactInfo.email,
+		emergPhoneNum: student.emergencyContactInfo.phoneNumber,
+		emergRelationship: student.emergencyContactInfo.relationship
+	});
+	
+});
+
 
 module.exports = router;
+

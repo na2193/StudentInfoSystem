@@ -18,6 +18,10 @@ var StudentSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    dateOfBirth: {
+        type: String,
+        required: true
+    },
     address: {
         address1: {
             type: String,
@@ -85,3 +89,6 @@ var StudentSchema = mongoose.Schema({
 
 var Student = module.exports = mongoose.model('Student', StudentSchema);
 
+module.exports.getStudentById = function(id, callback) {
+    Student.findById(id, callback);
+}

@@ -92,3 +92,13 @@ var Student = module.exports = mongoose.model('Student', StudentSchema);
 module.exports.getStudentById = function(id, callback) {
     Student.findById(id, callback);
 }
+
+module.exports.getStudentByEmail = function(email, callback) {
+    var query = {email: email};
+    Student.findOne(query, callback);
+}
+
+module.exports.getStudentByPhone = function(phoneNumber, callback) {
+    var query = {phoneNumber: phoneNumber};
+    Student.findOne(query, callback);
+}

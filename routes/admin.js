@@ -106,11 +106,19 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/login');
 	
 }
-
+// NEED TO WORK ON THIS
 router.get('/dashboard', isLoggedIn, function(req, res) {
+	Student.find({}, function(err, students) {
+		if(err)
+			throw err;
+
+		console.log(students);
+		res.render('dashboard.ejs', {students: students});
+	});
+	/*
     res.render('dashboard.ejs', {
         admin: req.admin // get the admin info out of session and pass to template
-    });
+    }); */
 });
 
 // new -> test it 
@@ -156,6 +164,7 @@ router.post('/newStudent', isLoggedIn, function(req, res) {
 		lastName: req.body.lastName,
 		email: req.body.studentEmail,
 		phoneNumber: req.body.studentPhoneNum,
+		dateOfBirth: req.body.dateOfBirth,
 		address: {
 			address1: req.body.address,
 			address2: req.body.address2,
@@ -242,8 +251,8 @@ router.post('/newClass', isLoggedIn, function(req, res) {
 		}); */
 });
 
-router.get('/viewStudentRecords', isLoggedIn, function(req, res) {
-	res.render('studentRecords.ejs');
+router.get('/searchStudentRecords', isLoggedIn, function(req, res) {
+	res.render('searchStudentRecords.ejs');
 });
 
 router.post('/searchStudentRecord', isLoggedIn, function(req, res) {
@@ -267,10 +276,37 @@ router.post('/searchStudentRecord', isLoggedIn, function(req, res) {
 			res.redirect('/studentRecords');
 		});
 	}
-});
+	else if(dropDownValue == 'email') {
+		Student.getStudentByEmail(searchItem, function(err, student) {
+			if(err)
+				throw err;
 
-/* AFTER SEARCHING FOR STUDENT, it will fill in the forms below, don't know how to do that
-*/
+			if(!student) {
+				console.log('Unknown Student');
+				return done(null, false, {message: 'Unknown Student.... Please try again or contact Admin'}); 
+			}
+
+			req.session.student = student;
+			console.log(student);
+			res.redirect('/studentRecords');
+		});
+	}
+	else if(dropDownValue == 'phoneNum') {
+		Student.getStudentByPhone(searchItem, function(err, student) {
+			if(err)
+				throw err;
+
+			if(!student) {
+				console.log('Unknown Student');
+				return done(null, false, {message: 'Unknown Student.... Please try again or contact Admin'}); 
+			}
+
+			req.session.student = student;
+			console.log(student);
+			res.redirect('/studentRecords');
+		});
+	}
+});
 
 router.get('/studentRecords', function(req, res) {
 	var student = req.session.student;

@@ -46,7 +46,7 @@
 					</a>
 				</li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="addInstructors.html" id="pagesDropdown" role="button">
+				<a class="nav-link dropdown-toggle" href="addInstructors" id="pagesDropdown" role="button">
 					<i class="fas fa-fw fa-folder"></i>
 					<span>Add Instructors</span>
 				</a>
@@ -122,6 +122,7 @@
 				</div>
 				
 			<!-- DataTables -->
+			
 			<div class="card mb-3" id="student-table">
 				<div class="card-header">
 					<i class="fas fa-table"></i>
@@ -136,7 +137,7 @@
 								  <th>Email</th>
 								  <th>Phone Number</th>
 								  <th>Date Of Birth</th>
-								  <th>Graduation Year</th>
+									<th>Parent's Phone Number</th>
 								</tr>
 							</thead>
 							<tfoot>
@@ -146,43 +147,21 @@
 								  <th>Email</th>
 								  <th>Phone Number</th>
 								  <th>Date Of Birth</th>
-								  <th>Graduation Year</th>
+									<th>Parent's Phone Number</th>
 								</tr>
 							 </tfoot>
 							<tbody>
 								<tr>
-								  <td>B235669847</td>
-								  <td>Tiger Nixon</td>
-								  <td>nixonT@email.com</td>
-								  <td>568-988-7866</td>
-								  <td>04/5/1990</td>
-								  <td>2020</td>
-								</tr>
-								<tr>
-								  <td>B235669847</td>
-								  <td>Tiger Nixon</td>
-								  <td>nixonT@email.com</td>
-								  <td>568-988-7866</td>
-								  <td>04/5/1990</td>
-								  <td>2020</td>
-								</tr>
-								<tr>
-								  <td>B235669847</td>
-								  <td>Tiger Nixon</td>
-								  <td>nixonT@email.com</td>
-								  <td>568-988-7866</td>
-								  <td>04/5/1990</td>
-								  <td>2020</td>
-								</tr>
-								<tr>
-								  <td>B235669847</td>
-								  <td>Tiger Nixon</td>
-								  <td>nixonT@email.com</td>
-								  <td>568-988-7866</td>
-								  <td>04/5/1990</td>
-								  <td>2020</td>
+									<% for(var i = 0; i < students.length; i++) { %>
+								  <td><%= students[i].id %></td>
+								  <td><%= students[i].firstName %> <%= students[i].lastName %></td>
+								  <td><%= students[i].email %></td>
+								  <td><%= students[i].phoneNumber %></td>
+								  <td><%= students[i].dateOfBirth %></td>
+								  <td><%= students[i].parentInfo.phoneNumber %></td>
 								</tr>
 							</tbody>
+							<% } %>
 						</table>
 					</div>
 				</div>

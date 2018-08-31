@@ -78,7 +78,7 @@
 				<div class="card card-newClass mx-auto mt-5">
 					<div class="card-header mx-auto">Student's Record</div>
 						<div class="card-body">
-							<form action="/studentRecords" method="GET" class="studentForm">
+							<form action="/studentRecords" method="POST">
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-md-6">
@@ -301,14 +301,14 @@
 								</div>
 								
 								<div class="text-center">
-									<a class="d-block medium mt-3" href="studentGrades.html">View Student's Grade Records</a>
+									<a class="d-block medium mt-3" href="studentGrades">View Student's Grade Records</a>
 								</div>
 						
 								<div class="form-group ">
 									<div class="form-row">
 										<div class="col-md-6 mt-4 mx-auto">
 											<div class="form-label-group">
-												<button type="update" class="btn btn-primary btn-block">Update</button>
+												<button type="submit" class="btn btn-primary btn-block">Update</button>
 												<a class="btn btn-primary btn-block" href="dashboard">Cancel</a>
 											</div>
 										</div>

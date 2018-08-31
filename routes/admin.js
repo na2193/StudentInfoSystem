@@ -112,45 +112,8 @@ router.get('/dashboard', isLoggedIn, function(req, res) {
 		if(err)
 			throw err;
 
-		console.log(students);
 		res.render('dashboard.ejs', {students: students});
 	});
-	/*
-    res.render('dashboard.ejs', {
-        admin: req.admin // get the admin info out of session and pass to template
-    }); */
-});
-
-// new -> test it 
-router.get('/viewStudents', isLoggedIn, function(req, res) {
-	var errorMessage;
-	newStudent.find({}, function(students, err) {
-		if(err) {
-			errorMessage = 'ERROR';
-			throw err;
-		}
-		console.log('List of all Students: ' + students);
-	});
-	res.render('/dashboard', {
-			students: students,
-			errorMessage: errorMessage
-	});
-});
-
-// new -> test it
-router.get('/viewStudents/:id', isLoggedIn, function(req, res) {
-	var errorMessage;
-	newStudent.findById({id}, function(student, err) {
-		if(err) {
-			errorMessage = 'ERROR';
-			throw err;
-		}
-		console.log('List of Student: ' + student);
-	});
-	res.render('/studentRecords', {
-			student: student,
-			errorMessage: errorMessage
-	});		
 });
 
 router.get('/newStudent', isLoggedIn, function(req, res) {
@@ -190,7 +153,7 @@ router.post('/newStudent', isLoggedIn, function(req, res) {
 		}
 	});
 	
-	console.log(newStudent);
+	console.log('POST METHOD /newStudent - New Student -> ' + newStudent);
 	
 	var errorMessage;
 	// saving the new student
@@ -257,9 +220,7 @@ router.get('/searchStudentRecords', isLoggedIn, function(req, res) {
 
 router.post('/searchStudentRecord', isLoggedIn, function(req, res) {
 	var dropDownValue = req.body.searchBySelectPicker;
-	console.log(dropDownValue);
 	var searchItem = req.body.inputSearch;
-	console.log(searchItem);
 	
 	if(dropDownValue == 'studentID') {
 		Student.findById(searchItem, function(err, student) {
@@ -272,7 +233,6 @@ router.post('/searchStudentRecord', isLoggedIn, function(req, res) {
 			}
 
 			req.session.student = student;
-			console.log(student);
 			res.redirect('/studentRecords');
 		});
 	}
@@ -287,7 +247,6 @@ router.post('/searchStudentRecord', isLoggedIn, function(req, res) {
 			}
 
 			req.session.student = student;
-			console.log(student);
 			res.redirect('/studentRecords');
 		});
 	}
@@ -298,19 +257,18 @@ router.post('/searchStudentRecord', isLoggedIn, function(req, res) {
 
 			if(!student) {
 				console.log('Unknown Student');
+				req.session.reset(); // reset the session info
 				return done(null, false, {message: 'Unknown Student.... Please try again or contact Admin'}); 
 			}
 
 			req.session.student = student;
-			console.log(student);
 			res.redirect('/studentRecords');
 		});
 	}
 });
 
-router.get('/studentRecords', function(req, res) {
+router.get('/studentRecords', isLoggedIn, function(req, res) {
 	var student = req.session.student;
-	console.log(student);
 	res.render('studentRecords.ejs', {
 		firstName: student.firstName,
 		lastName: student.lastName,
@@ -333,7 +291,81 @@ router.get('/studentRecords', function(req, res) {
 		emergPhoneNum: student.emergencyContactInfo.phoneNumber,
 		emergRelationship: student.emergencyContactInfo.relationship
 	});
+});
+
+// NEED TO FIX THIS DOES NOT WORK, SHOULD BE PUT METHOD 
+router.post('/studentRecords', isLoggedIn, function(req, res) {
+	// checking if exists
+	if(req.session && req.session.student) { 
+		console.log("Exists");
+		req.locals.student = req.session.student;
+		console.log('Local Student: ' + student);
+	}
+	else {
+		console.log("Does not Exists");
+	}
+	var student = req.session.student;
+	console.log('Current Student ID -> ' + student.id);
+	console.log("Current Student " + student);
+	var updateStudent = ({
+		// student information
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		email: req.body.studentEmail,
+		phoneNumber: req.body.studentPhoneNum,
+		dateOfBirth: req.body.dateOfBirth,
+		address: {
+			address1: req.body.address,
+			address2: req.body.address2,
+			city: req.body.city,
+			state: req.body.state,
+			zipCode: req.body.zip
+		},
+		// parent information
+		parentInfo: {
+			firstName: req.body.parentFirstName,
+			lastName: req.body.parentLastName,
+			email: req.body.parentEmail,
+			phoneNumber: req.body.parentPhoneNum,
+			relationship: req.body.parentRelationship
+		},
+		// emergency contact information
+		emergencyContactInfo: {
+			firstName: req.body.emergFirstName,
+			lastName: req.body.emergLastName,
+			email: req.body.emergEmail,
+			phoneNumber: req.body.emergPhoneNum,
+			relationship: req.body.emergRelationship 
+		}
+	});
+
+	console.log();
+	console.log('ID' + req.session.student.id);
+	console.log('Student Updating ' + updateStudent);
+
+	Student.findByIdAndUpdate(req.session.student.id, updateStudent, {new: true}, function(err, student) {
+		if(err)
+			throw err;
 	
+		console.log('Updated Successfully: ' + student);
+		res.render('/studentRecords');
+	});
+});
+
+router.get('/studentGrades', isLoggedIn, function(req, res) {
+	var student = req.session.student;
+	res.render('studentGrades.ejs', {
+		firstName: student.firstName,
+		lastName: student.lastName,
+	});
+});
+
+router.get('/addGrades', function(req, res) {
+	res.render('addGrades.ejs');
+});
+
+router.post('addGrades', function(req, res) {
+
 });
 
 

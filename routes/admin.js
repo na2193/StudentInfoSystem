@@ -364,7 +364,16 @@ router.get('/addGrades', function(req, res) {
 	res.render('addGrades.ejs');
 });
 
+// NEED TO FIX THIS
 router.post('addGrades', function(req, res) {
+
+});
+
+router.get('/newInstructor', function(req, res) {
+	res.render('newInstructor.ejs');
+});
+
+router.post('/newInstructor', function(req, res) {
 
 });
 

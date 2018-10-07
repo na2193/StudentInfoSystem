@@ -53,7 +53,7 @@
 				
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="addGrades.html">
+				<a class="nav-link" href="addGrades">
 					<i class="fas fa-fw fa-chart-area"></i>
 					<span>Grades</span></a>
 			</li>
@@ -168,7 +168,7 @@
 			</div>
         </div>
 		<!-- Instrutor Tables -->
-			<div class="card mb-3" id="instructor-table" style="float:left;">
+			<div class="card mb-3" id="student-table" style="float:left;">
 					<div class="card-header">
 						<i class="fas fa-table"></i>
 						List Of Instructors
@@ -178,61 +178,41 @@
 							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 								<thead>
 									<tr>
+										<th>Instructor ID</th>
 									  <th>Name</th>
-									  <th>Position</th>
-									  <th>Office</th>
-									  <th>Phone Number</th>
+									  <th>Profession</th>
+									  <th>Office Location</th>
+									  <th>Office Number</th>
 									  <th>Email</th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr>
+										<th>Instructor ID</th>
 									  <th>Name</th>
-									  <th>Position</th>
-									  <th>Office</th>
-									  <th>Phone Number</th>
+									  <th>Profession</th>
+									  <th>Office Location</th>
+									  <th>Office Number</th>
 									  <th>Email</th>
 									</tr>
 								 </tfoot>
-								<tbody>
-									<tr>
-									  <td>Tiger Nixon</td>
-									  <td>System Architect</td>
-									  <td>Edinburgh</td>
-									  <td>123-456-7898</td>
-									  <td>nixon@email.com</td>
-									</tr>
-									<tr>
-									  <td>Garrett Winters</td>
-									  <td>Accountant</td>
-									  <td>Tokyo</td>
-									  <td>123-456-7898</td>
-									  <td>Winters@email.com</td>
-									</tr>
-									<tr>
-									  <td>Ashton Cox</td>
-									  <td>Junior Technical Author</td>
-									  <td>San Francisco</td>
-									  <td>123-456-7898</td>
-									  <td>cox@email.com</td>
-									</tr>
-									<tr>
-									  <td>Cedric Kelly</td>
-									  <td>Senior Javascript Developer</td>
-									  <td>Edinburgh</td>
-									  <td>123-456-7898</td>
-									  <td>kelly@email.com</td>
-									</tr>
-								</tbody>
+										<tbody>
+												<tr>
+													<% for(var i = 0; i < instructors.length; i++) { %>
+														<td><%= instructors[i].id %></td>
+														<td><%= instructors[i].firstName %> <%= instructors[i].lastName %></td>
+														<td><%= instructors[i].subjects %></td>
+														<td><%= instructors[i].officeLocation %></td>
+														<td><%= instructors[i].officeNumber %></td>
+														<td><%= instructors[i].email %></td>
+												</tr>
+											</tbody>
+											<% } %>
 							</table>
 						</div>
 					</div>
 				</div>
-				
-				<!-- ADD Calendar/Event -->
-			<br><br>
-			<iframe src="demo_iframe.html" height="500" width="700"  frameborder="0"></iframe>
-			
+
 		</div>
         <!-- Sticky Footer -->
         <footer class="sticky-footer">

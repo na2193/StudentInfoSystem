@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
 
 var InstructorSchema = mongoose.Schema({
     firstName: {
@@ -41,7 +40,7 @@ var InstructorSchema = mongoose.Schema({
             required: true
         }
     },
-    teaching: [{
+    subjects: [{
         type: String,
         required: true
     }],

@@ -10,6 +10,8 @@ var bcrypt = require('bcryptjs');
 var Admin = require('../models/admin');
 var Student = require('../models/student');
 var Class = require('../models/class');
+var Instructor = require('../models/instructors');
+var Grades = require('../models/grades');
 
 router.get('/', function(req, res) {
     res.redirect('/login');
@@ -112,9 +114,16 @@ router.get('/dashboard', isLoggedIn, function(req, res) {
 		if(err)
 			throw err;
 
-		res.render('dashboard.ejs', {students: students});
+			Instructor.find({}, function(err, instructors) {
+				if(err)
+					throw err;
+
+					res.render('dashboard.ejs', {students: students, 
+												 instructors: instructors});
+			});
 	});
 });
+
 
 router.get('/newStudent', isLoggedIn, function(req, res) {
     res.render('newStudent.ejs');
@@ -360,23 +369,72 @@ router.get('/studentGrades', isLoggedIn, function(req, res) {
 	});
 });
 
-router.get('/addGrades', function(req, res) {
+router.get('/addGrades', isLoggedIn, function(req, res) {
+	var student = req.session.student;
+	console.log(student);
 	res.render('addGrades.ejs');
 });
 
 // NEED TO FIX THIS
-router.post('addGrades', function(req, res) {
+router.post('/addGrades', isLoggedIn, function(req, res) {
+	//var student = req.session.student;
+	var newGrade = new Grades ({
+		//studentID: student.id,
+		courseNumber: req.body.courseNumber,
+		courseName: req.body.courseName,
+		semesterTerm: req.body.semesterTerm,
+		teacher: req.body.teacher,
+		midtermGrade: req.body.midtermGrade,
+		finalGrade: req.body.finalGrade,
+		creditHours: req.body.creditHours,
+		creditScore: req.body.creditScore,
+		score: req.body.score,
+		totalCreditHours: req.body.totalCreditHours,
+		totalScore: req.body.totalScore,
+		GPA: req.body.GPA
+	});		
+	console.log(newGrade);
 
+	newGrade.save(function(err) {
+		if(err) 
+			throw err;
+		console.log('New Grade Successfully Saved: ' + newGrade);
+	});
+
+	res.redirect('/dashboard');
 });
 
-router.get('/newInstructor', function(req, res) {
+router.get('/newInstructor', isLoggedIn, function(req, res) {
 	res.render('newInstructor.ejs');
 });
 
-router.post('/newInstructor', function(req, res) {
+router.post('/newInstructor', isLoggedIn, function(req, res) {
+	var newInstructor = new Instructor ({
+        firstName: req.body.firstName,
+		lastName: req.body.lastName,
+        email: req.body.email,
+		officeNumber: req.body.officeNum,
+		cellNumber: req.body.cellNum,
+		address: {
+			address1: req.body.address,
+			address2: req.body.address2,
+			city: req.body.city,
+			state: req.body.state,
+			zipCode: req.body.zip
+		},
+		subjects: req.body.subject,
+		officeLocation: req.body.officeLocation
+	});
+	console.log(newInstructor);
 
+	newInstructor.save(function(err) {
+		if(err) 
+			throw err;
+		console.log('New Instructor Successfully Saved: ' + newInstructor);
+	});
+
+	res.redirect('/dashboard');
 });
 
 
 module.exports = router;
-
